@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso / Registro — ART Consultores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════ VARIABLES Y RESET ═══════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --verde:    #1a4d2e;
+      --verde-md: #2d7a4f;
+      --verde-lt: #e8f5ee;
+      --azul:     #0d5c8f;
+      --blanco:   #ffffff;
+      --gris-bg:  #f7f8fa;
+      --gris-lt:  #e5e8ed;
+      --gris-txt: #6b7280;
+      --negro:    #0f1923;
+      --sombra:   0 12px 48px rgba(0,0,0,.15);
+      --radio:    14px;
+      --radio-lg: 24px;
+      --trans:    .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: linear-gradient(135deg, #0f1a12 0%, #0a1f35 100%);
+      color: var(--negro); 
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5%;
+    }
+
+    /* ═══════════════════ CONTENEDOR PRINCIPAL ═══════════════════ */
+    .auth-container {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      transition: color var(--trans);
+    }
+    .back-link:hover { color: #fff; }
+
+    .auth-card {
+      background: var(--blanco);
+      border-radius: var(--radio-lg);
+      box-shadow: var(--sombra);
+      overflow: hidden;
+    }
+
+    /* ═══════════════════ CABECERA TARJETA ═══════════════════ */
+    .auth-header {
+      padding: 40px 40px 20px;
+      text-align: center;
+    }
+    .auth-logo {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--verde) 0%, var(--azul) 100%);
+      color: #fff;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    .auth-header h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -.5px;
+      margin-bottom: 8px;
+    }
+    .auth-header p {
+      font-size: .95rem;
+      color: var(--gris-txt);
+    }
+
+    /* ═══════════════════ PESTAÑAS ═══════════════════ */
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--gris-lt);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 16px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gris-txt);
+      cursor: pointer;
+      transition: all var(--trans);
+    }
+    .tab-btn.active {
+      color: var(--verde-md);
+      border-bottom-color: var(--verde-md);
+    }
+    .tab-btn:hover:not(.active) { color: var(--negro); }
+
+    /* ═══════════════════ FORMULARIO ═══════════════════ */
+    .auth-body { padding: 32px 40px 40px; }
+    
+    .form-panel { display: none; }
+    .form-panel.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--negro);
+    }
+    .form-group input {
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--gris-lt);
+      background: var(--gris-bg);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--negro);
+      transition: all var(--trans);
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: var(--verde-md);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(45,122,79,.12);
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gris-txt);
+    }
+    .forgot-link {
+      color: var(--verde-md);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color var(--trans);
+    }
+    .forgot-link:hover { color: var(--verde); text-decoration: underline; }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--verde) 0%, var(--verde-md) 100%);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(26,77,46,.30);
+      transition: all var(--trans);
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26,77,46,.40);
+    }
+
+    /* ═══════════════════ RESPONSIVE ═══════════════════ */
+    @media (max-width: 500px) {
+      .auth-header { padding: 32px 24px 16px; }
+      .auth-body { padding: 24px 24px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <a href="index.html" class="back-link">← Volver al sitio principal</a>
+    
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">AR</div>
+        <h1>Únete a la red</h1>
+        <p>Accede a tu panel o crea una cuenta nueva para gestionar tus alojamientos.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="tab-btn active" onclick="switchTab('registro')">Crear cuenta</button>
+        <button class="tab-btn" onclick="switchTab('login')">Iniciar sesión</button>
+      </div>
+
+      <div class="auth-body">
+        
+        <div class="form-panel active" id="panel-registro">
+          <form onsubmit="handleAuth(event, 'registro')">
+            <div class="form-group">
+              <label for="reg-nombre">Nombre completo</label>
+              <input type="text" id="reg-nombre" placeholder="Ej. Pelayo Martínez" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-email">Correo electrónico</label>
+              <input type="email" id="reg-email" placeholder="tu@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-password">Contraseña</label>
+              <input type="password" id="reg-password" placeholder="Mínimo 8 caracteres" required minlength="8" />
+            </div>
+            <div class="form-options">
+              <label class="checkbox-group">
+                <input type="checkbox" required />
+                <span>Acepto los términos y condiciones</span>
+              </label>
+            </div>
+            <button type="submit" class="btn-submit">Crear cuenta →</button>
+          </form>
+        </div>
+
+        <div class="form-panel" id="panel-login">
+          <form onsubmit="handleAuth(event, 'login')">
+            <div class="form-group">
+              <label for="log-email">Correo electrónico</label>
+              <input type="email" id="log-email" placeholder="tu@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="log-password">Contraseña</label>
+              <input type="password" id="log-password" placeholder="Tu contraseña" required />
+            </div>
+            <div class="form-options">
+              <label class="checkbox-group">
+                <input type="checkbox" />
+                <span>Recordarme</span>
+              </label>
+              <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+            </div>
+            <button type="submit" class="btn-submit">Entrar al panel</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Función para cambiar entre Registro e Inicio de sesión
+    function switchTab(tab) {
+      // Quitar active de todos los botones y paneles
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.form-panel').forEach(panel => panel.classList.remove('active'));
+      
+      // Añadir active al correspondiente
+      if (tab === 'registro') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('panel-registro').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('panel-login').classList.add('active');
+      }
+    }
+
+    // Función simulada para gestionar el envío del formulario
+    function handleAuth(event, type) {
+      event.preventDefault(); // Evita que la página recargue
+      
+      if (type === 'registro') {
+        const nombre = document.getElementById('reg-nombre').value;
+        alert(`¡Gracias por registrarte, ${nombre}!\n\nEn la versión real, esto conectaría con tu base de datos para crear el usuario.`);
+      } else {
+        alert("¡Sesión iniciada con éxito!\n\nRedirigiendo a tu panel de control...");
+      }
+    }
+  </script>
+</body>
+</html>
